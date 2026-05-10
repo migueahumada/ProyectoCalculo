@@ -59,7 +59,7 @@ void Init()
     printf("ERROR PLAYER NOT ALLOCATED");
   }
 
-  InitPlayer(g_Player,300, 100,200,200,8,8, "../rsc/Panther.png");
+  InitPlayer(g_Player,300,100,200, 200,800,800, "../rsc/Panther.png");
 }
 
 void Update(float deltaTime)
@@ -68,10 +68,26 @@ void Update(float deltaTime)
 }
 
 void Input() {
-    if (IsKeyDown(KEY_RIGHT)) g_Player->m_position.x += 2.0f;
-    if (IsKeyDown(KEY_LEFT)) g_Player->m_position.x -= 2.0f;
-    if (IsKeyDown(KEY_UP)) g_Player->m_position.y -= 2.0f;
-    if (IsKeyDown(KEY_DOWN)) g_Player->m_position.y += 2.0f;
+    if (IsKeyDown(KEY_RIGHT))
+    {
+      g_Player->m_position.x += g_Player->m_velocity.x * GetFrameTime();
+      g_Player->m_velocity.x += 0.5 * g_Player->m_acceleration.x * GetFrameTime();
+    } 
+    if (IsKeyDown(KEY_LEFT))
+    {
+      g_Player->m_position.x -= g_Player->m_velocity.x * GetFrameTime();
+      g_Player->m_velocity.x -= 0.5 * g_Player->m_acceleration.x * GetFrameTime();
+    }
+    if (IsKeyDown(KEY_UP))
+    {
+      g_Player->m_position.y -= g_Player->m_velocity.y * GetFrameTime();
+      g_Player->m_velocity.y -= 0.5 * g_Player->m_acceleration.y * GetFrameTime();
+    }
+    if (IsKeyDown(KEY_DOWN))
+    {
+      g_Player->m_position.y += g_Player->m_velocity.y * GetFrameTime();
+      g_Player->m_velocity.y += 0.5 * g_Player->m_acceleration.y * GetFrameTime();
+    }
 }
 
 void Render()
