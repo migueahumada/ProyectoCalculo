@@ -6,19 +6,24 @@ void Init();
 void Update(float deltaTime);
 void Render();
 void Shutdown();
+void Input();
 
 //VARIABLES GLOBALES
 Texture wabbit;
+const int screenWidth = 1200;
+const int screenHeight = 800;
+Vector2 ballPosition;
 
 //COMIENZA PROGAMA
 int main ()
 {
   Init();
-
+  
   while (!WindowShouldClose())
   {
+    SetTargetFPS(60);
     Update(0.0f);
-
+    Input();
     Render();
   }
 
@@ -28,10 +33,11 @@ int main ()
 
 void Init()
 {
-  SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+  SetConfigFlags(FLAG_VSYNC_HINT);
 
-
-  InitWindow(800, 600, "Hello Raylib");
+  InitWindow(screenWidth, screenHeight, "Hello Raylib");
+  ballPosition.x = (float)screenWidth / 2;
+  ballPosition.y = (float)screenHeight / 2;
 
   wabbit = LoadTexture("D:/Rex_C.png"); 
 }
@@ -41,15 +47,24 @@ void Update(float deltaTime)
   
 }
 
+void Input() {
+    if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
+    if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
+    if (IsKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
+    if (IsKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
+}
+
 void Render()
 {
   BeginDrawing();
 
-  ClearBackground(BLUE);
+  ClearBackground(GRAY);
 
   DrawText("Puto El Que lo Lea", 200, 200, 20, WHITE);
 
   DrawTexture(wabbit, 400, 200, WHITE);
+
+  DrawCircleV(ballPosition, 50, MAGENTA);
 
   EndDrawing();
 }
