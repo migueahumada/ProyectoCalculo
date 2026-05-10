@@ -7,9 +7,9 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(README_FILE README.md)
 
+set(RSC rsc/)
+
 add_executable(${PROJECT_NAME} main.c ${README_FILE})
-
-
 
 if(APPLE)
   target_include_directories(${PROJECT_NAME} PUBLIC /Users/miko/Downloads/raylib-6.0_macos/include)
