@@ -56,7 +56,7 @@ void Init()
   }
 
   InitPlayerPosition(g_Player, 230, 230);
-  Car = LoadTexture("rsc/Panther.png");
+  Car = LoadTexture("../rsc/Panther.png");
   int A = 2;
 }
 
@@ -79,12 +79,8 @@ void Render()
   ClearBackground(GRAY);
 
   DrawText("Puto El Que lo Lea", 200, 200, 20, WHITE);
-
-  DrawCircleV(ballPosition, 50, MAGENTA);
-  Vector2 POS;
-  POS.x = 300;
-  POS.y = 300;
-  DrawTextureV(Car, POS, RED);
+ 
+  DrawTextureV(Car, ballPosition, WHITE);
 
   EndDrawing();
 }
