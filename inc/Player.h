@@ -11,20 +11,33 @@ typedef struct Player
   Texture m_texture;
 } Player;
 
+//Constructor
 void InitPlayer(Player* player,
-                Vector2 position,
-                Vector2 velocity,
-                Vector2 acceleration, 
+                float posX,
+                float posY,
+                float velX,
+                float velY,
+                float accelX,
+                float accelY,
                 const char* texturePath)
 {
-  
+  player->m_position.x = posX;
+  player->m_position.y = posY;
+  player->m_velocity.x = velX;
+  player->m_velocity.y = velY;
+  player->m_acceleration.x = accelX;
+  player->m_acceleration.y = accelY;
+  player->m_texture = LoadTexture(texturePath);
 }
 
-void InitPlayerPosition(Player* player, float x, float y)
+//Destructor
+void ShutDownPlayer(Player* player)
 {
-  player->m_position.x = x;
-  player->m_position.y = y;
+  UnloadTexture(player->m_texture);
 }
+
+
+
 
 void PlayerSetPosition(Player* player, Vector2 newPosition)
 {
@@ -35,3 +48,9 @@ Vector2 PlayerGetPosition(Player* player, Vector2 newPosition)
 {
   return player->m_position;
 }
+
+void LoadPlayerTexture(Player* player, const char* texturePath)
+{
+  player->m_texture = LoadTexture(texturePath);
+}
+

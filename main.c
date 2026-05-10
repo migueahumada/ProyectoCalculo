@@ -17,11 +17,12 @@ void Shutdown();
 void Input();
 
 //VARIABLES GLOBALES
-Texture Car;
+
 const int screenWidth = 1200;
 const int screenHeight = 800;
 Vector2 ballPosition;
 struct Player* g_Player;
+
 
 //COMIENZA PROGAMA
 int main ()
@@ -48,6 +49,9 @@ void Init()
   ballPosition.x = (float)screenWidth / 2;
   ballPosition.y = (float)screenHeight / 2;
 
+  int foo = 3;
+
+  //PLAYER INIT
   g_Player = malloc(sizeof(struct Player));
 
   if (!g_Player)
@@ -55,9 +59,7 @@ void Init()
     printf("ERROR PLAYER NOT ALLOCATED");
   }
 
-  InitPlayerPosition(g_Player, 230, 230);
-  Car = LoadTexture("../rsc/Panther.png");
-  int A = 2;
+  InitPlayer(g_Player,300, 100,200,200,8,8, "../rsc/Panther.png");
 }
 
 void Update(float deltaTime)
@@ -66,10 +68,10 @@ void Update(float deltaTime)
 }
 
 void Input() {
-    if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
-    if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
-    if (IsKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
-    if (IsKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
+    if (IsKeyDown(KEY_RIGHT)) g_Player->m_position.x += 2.0f;
+    if (IsKeyDown(KEY_LEFT)) g_Player->m_position.x -= 2.0f;
+    if (IsKeyDown(KEY_UP)) g_Player->m_position.y -= 2.0f;
+    if (IsKeyDown(KEY_DOWN)) g_Player->m_position.y += 2.0f;
 }
 
 void Render()
@@ -80,14 +82,14 @@ void Render()
 
   DrawText("Puto El Que lo Lea", 200, 200, 20, WHITE);
  
-  DrawTextureV(Car, ballPosition, WHITE);
+  DrawTextureV(g_Player->m_texture, g_Player->m_position, WHITE);
 
   EndDrawing();
 }
 
 void Shutdown()
 {
+  ShutDownPlayer(g_Player);
   free(g_Player);
-  UnloadTexture(Car);
   CloseWindow();
 }
