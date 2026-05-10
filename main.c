@@ -1,33 +1,61 @@
 #include <stdio.h>
 #include "raylib.h"
 
+// FUNCIONES BASES
+void Init();
+void Update(float deltaTime);
+void Render();
+void Shutdown();
+
+//VARIABLES GLOBALES
+Texture wabbit;
+
+//COMIENZA PROGAMA
 int main ()
 {
-  SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
-
-  
-  InitWindow(800, 600, "Hello Raylib");
-
-  Texture wabbit = LoadTexture("wabbit_alpha.png"); //Esto no cargará
-  
+  Init();
 
   while (!WindowShouldClose())
   {
-    
-    BeginDrawing();
+    Update(0.0f);
 
-    ClearBackground(BLACK);
-
-    
-    DrawText("Puto El Que lo Lea", 200,200,20,WHITE);
-
-    DrawTexture(wabbit, 400, 200, WHITE);
-    
-    EndDrawing();
+    Render();
   }
 
-  UnloadTexture(wabbit);
-
-  CloseWindow();
+  Shutdown();
   return 0;
+}
+
+void Init()
+{
+  SetConfigFlags(FLAG_VSYNC_HINT | FLAG_WINDOW_HIGHDPI);
+
+
+  InitWindow(800, 600, "Hello Raylib");
+
+  wabbit = LoadTexture("D:/Rex_C.png"); 
+}
+
+void Update(float deltaTime)
+{
+  
+}
+
+void Render()
+{
+  BeginDrawing();
+
+  ClearBackground(BLUE);
+
+  DrawText("Puto El Que lo Lea", 200, 200, 20, WHITE);
+
+  DrawTexture(wabbit, 400, 200, WHITE);
+
+  EndDrawing();
+}
+
+void Shutdown()
+{
+  UnloadTexture(wabbit);
+  CloseWindow();
 }
