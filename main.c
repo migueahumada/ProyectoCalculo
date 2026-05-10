@@ -1,5 +1,13 @@
 #include <stdio.h>
 #include "raylib.h"
+#include "inc/Player.h"
+#include <stdlib.h>
+
+//ERRORES
+enum CALC_RESULT
+{
+  PLAYER_NOT_ALLOCATED = 1
+};
 
 // FUNCIONES BASES
 void Init();
@@ -13,6 +21,7 @@ Texture wabbit;
 const int screenWidth = 1200;
 const int screenHeight = 800;
 Vector2 ballPosition;
+struct Player* g_Player;
 
 //COMIENZA PROGAMA
 int main ()
@@ -34,10 +43,19 @@ int main ()
 void Init()
 {
   SetConfigFlags(FLAG_VSYNC_HINT);
-
+  
   InitWindow(screenWidth, screenHeight, "Hello Raylib");
   ballPosition.x = (float)screenWidth / 2;
   ballPosition.y = (float)screenHeight / 2;
+
+  g_Player = malloc(sizeof(struct Player));
+
+  if (!g_Player)
+  {
+    printf("ERROR PLAYER NOT ALLOCATED");
+  }
+
+  InitPlayerPosition(g_Player, 230, 230);
 
   wabbit = LoadTexture("D:/Rex_C.png"); 
 }
@@ -71,6 +89,7 @@ void Render()
 
 void Shutdown()
 {
+  free(g_Player);
   UnloadTexture(wabbit);
   CloseWindow();
 }
