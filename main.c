@@ -1,17 +1,12 @@
 #include <stdio.h>
-#include "raylib.h"
-#include "inc/Player.h"
+#include "Player.h"
 #include <stdlib.h>
+#include "Utils.h"
 
-//ERRORES
-enum CALC_RESULT
-{
-  PLAYER_NOT_ALLOCATED = 1
-};
 
 // FUNCIONES BASES
 void Init();
-void Update(float deltaTime);
+void Update();
 void Render();
 void Shutdown();
 void Input();
@@ -21,8 +16,8 @@ void Input();
 const int screenWidth = 1200;
 const int screenHeight = 800;
 Vector2 ballPosition;
-struct Player* g_Player;
-
+Player* g_Player;
+C_RESULT result;
 
 //COMIENZA PROGAMA
 int main ()
@@ -32,7 +27,7 @@ int main ()
   while (!WindowShouldClose())
   {
     SetTargetFPS(60);
-    Update(0.0f);
+    Update();
     Input();
     Render();
   }
@@ -48,45 +43,46 @@ void Init()
   InitWindow(screenWidth, screenHeight, "Hello Raylib");
   ballPosition.x = (float)screenWidth / 2;
   ballPosition.y = (float)screenHeight / 2;
-
-  int foo = 3;
-
-  //PLAYER INIT
-  g_Player = malloc(sizeof(struct Player));
-
-  if (!g_Player)
+  
+  g_Player = CreatePlayer();
+  if (g_Player == NULL)
   {
-    printf("ERROR PLAYER NOT ALLOCATED");
+    printf("Error with number: %d", C_PLAYER_NOT_ALLOCATED);
   }
 
-  InitPlayer(g_Player,300,100,200, 200,800,800, "../rsc/Panther.png");
+  InitPlayer(g_Player,300,100,
+             300,300,
+             500,500,
+             400, 800,
+             "../rsc/Panther.png");
 }
 
-void Update(float deltaTime)
+void Update()
 {
   
 }
 
 void Input() {
-    if (IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D))
     {
+      g_Player->m_velocity.x += g_Player->m_acceleration.x * GetFrameTime();
       g_Player->m_position.x += g_Player->m_velocity.x * GetFrameTime();
-      g_Player->m_velocity.x += 0.5 * g_Player->m_acceleration.x * GetFrameTime();
+      
     } 
-    if (IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A))
     {
+      g_Player->m_velocity.x -= g_Player->m_acceleration.x * GetFrameTime();
       g_Player->m_position.x -= g_Player->m_velocity.x * GetFrameTime();
-      g_Player->m_velocity.x -= 0.5 * g_Player->m_acceleration.x * GetFrameTime();
     }
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
     {
       g_Player->m_position.y -= g_Player->m_velocity.y * GetFrameTime();
-      g_Player->m_velocity.y -= 0.5 * g_Player->m_acceleration.y * GetFrameTime();
+      g_Player->m_velocity.y -= 100;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
     {
       g_Player->m_position.y += g_Player->m_velocity.y * GetFrameTime();
-      g_Player->m_velocity.y += 0.5 * g_Player->m_acceleration.y * GetFrameTime();
+      g_Player->m_velocity.y += 100;
     }
 }
 
@@ -105,7 +101,6 @@ void Render()
 
 void Shutdown()
 {
-  ShutDownPlayer(g_Player);
-  free(g_Player);
+  result = DestroyPlayer(g_Player);
   CloseWindow();
 }

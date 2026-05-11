@@ -1,5 +1,6 @@
-#pragma once
-#include "raymath.h"
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "raylib.h"
 
 typedef struct Player
@@ -9,48 +10,26 @@ typedef struct Player
   Vector2 m_velocity;
   Vector2 m_acceleration;
   Texture m_texture;
+  float maxAcceleration;
+  float maxVelocity;
 } Player;
 
-//Constructor
+Player* CreatePlayer();
+
+int DestroyPlayer(Player* player);
+
 void InitPlayer(Player* player,
                 float posX,
                 float posY,
                 float velX,
-                float velY,
+                float velY,                
                 float accelX,
                 float accelY,
-                const char* texturePath)
-{
-  player->m_position.x = posX;
-  player->m_position.y = posY;
-  player->m_velocity.x = velX;
-  player->m_velocity.y = velY;
-  player->m_acceleration.x = accelX;
-  player->m_acceleration.y = accelY;
-  player->m_texture = LoadTexture(texturePath);
-}
-
-//Destructor
-void ShutDownPlayer(Player* player)
-{
-  UnloadTexture(player->m_texture);
-}
+                float maxVelocity,
+                float maxAccel,
+                const char* texturePath);
 
 
 
-
-void PlayerSetPosition(Player* player, Vector2 newPosition)
-{
-  player->m_position = newPosition;
-}
-
-Vector2 PlayerGetPosition(Player* player, Vector2 newPosition)
-{
-  return player->m_position;
-}
-
-void LoadPlayerTexture(Player* player, const char* texturePath)
-{
-  player->m_texture = LoadTexture(texturePath);
-}
+#endif // !PLAYER_H
 
