@@ -1,6 +1,8 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <raylib.h>
+
 //ERRORES
 typedef enum C_RESULT
 {
@@ -11,6 +13,11 @@ typedef enum C_RESULT
 }C_RESULT;
 
 void GetResult(int result);
+
+Vector2 GetRightVector2();
+
+Vector2 GetUpVector2();
+
 
 #endif // !UTILS_H
 

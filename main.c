@@ -2,6 +2,8 @@
 #include "Player.h"
 #include <stdlib.h>
 #include "Utils.h"
+#include <raymath.h>
+#include <rlgl.h>
 
 
 // FUNCIONES BASES
@@ -15,9 +17,9 @@ void Input();
 
 const int screenWidth = 1200;
 const int screenHeight = 800;
-Vector2 ballPosition;
 Player* g_Player;
 C_RESULT result;
+
 
 //COMIENZA PROGAMA
 int main ()
@@ -41,48 +43,52 @@ void Init()
   SetConfigFlags(FLAG_VSYNC_HINT);
   
   InitWindow(screenWidth, screenHeight, "Hello Raylib");
-  ballPosition.x = (float)screenWidth / 2;
-  ballPosition.y = (float)screenHeight / 2;
   
   g_Player = CreatePlayer();
   if (g_Player == NULL)
   {
     printf("Error with number: %d", C_PLAYER_NOT_ALLOCATED);
   }
-
-  InitPlayer(g_Player,300,100,
+  
+  InitPlayer(g_Player,
+             300,100,
              300,300,
              500,500,
              400, 800,
-             "../rsc/Panther.png");
+             0.15f,0,
+             "../../rsc/Panther.png");
 }
 
 void Update()
 {
-  
+  UpdatePlayer(g_Player);
 }
 
 void Input() {
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D))
     {
-      g_Player->m_velocity.x += g_Player->m_acceleration.x * GetFrameTime();
-      g_Player->m_position.x += g_Player->m_velocity.x * GetFrameTime();
+      
+      g_Player->m_rotation ++;
       
     } 
     if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A))
     {
-      g_Player->m_velocity.x -= g_Player->m_acceleration.x * GetFrameTime();
-      g_Player->m_position.x -= g_Player->m_velocity.x * GetFrameTime();
+      g_Player->m_rotation--;
+      
+      
     }
+  
     if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
     {
-      g_Player->m_position.y -= g_Player->m_velocity.y * GetFrameTime();
-      g_Player->m_velocity.y -= 100;
+      
+      
+      
     }
     if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
     {
-      g_Player->m_position.y += g_Player->m_velocity.y * GetFrameTime();
-      g_Player->m_velocity.y += 100;
+      
+      
+      
     }
 }
 
@@ -91,10 +97,9 @@ void Render()
   BeginDrawing();
 
   ClearBackground(GRAY);
-
-  DrawText("Puto El Que lo Lea", 200, 200, 20, WHITE);
  
-  DrawTextureV(g_Player->m_texture, g_Player->m_position, WHITE);
+  RenderPlayer(g_Player);
+  
 
   EndDrawing();
 }
