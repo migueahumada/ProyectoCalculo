@@ -1,22 +1,23 @@
-cmake_minimum_required(VERSION 3.3) 
+cmake_minimum_required(VERSION 3.11) 
 
 project(Calculo LANGUAGES C)
 
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(README_FILE README.md)
 
-set(HEADERS inc/Utils.h
+set(HEADERS inc/CMath.h
+            inc/Utils.h
             inc/Player.h)
 
 set(SOURCES main.c
             src/Player.c
             src/Utils.c)
 
-set(RSC rsc/)
+set(RESOURCES rsc/Panther.png)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${README_FILE})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${README_FILE} ${RESOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 
