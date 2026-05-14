@@ -29,8 +29,8 @@ int main ()
   while (!WindowShouldClose())
   {
     SetTargetFPS(60);
-    Update();
     Input();
+    Update();
     Render();
   }
 
@@ -42,7 +42,7 @@ void Init()
 {
   SetConfigFlags(FLAG_VSYNC_HINT);
   
-  InitWindow(screenWidth, screenHeight, "Hello Raylib");
+  InitWindow(screenWidth, screenHeight, "Simulación");
   
   g_Player = CreatePlayer();
   if (g_Player == NULL)
@@ -60,33 +60,35 @@ void Update()
   UpdatePlayer(g_Player);
 }
 
-void Input() {
-    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D))
-    {
-      
-      g_Player->m_rotation++;
-      
-    } 
-    if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A))
-    {
-      g_Player->m_rotation--;
-      //g_Player->m_origin = Vector2Rotate(g_Player->m_origin, 3);
-      
-      
-    }
-  
-    if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
-    {
-      g_Player->m_origin = Vector2Add(g_Player->m_origin, GetUpVector2());
-      
-      
-    }
-    if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
-    {
-      
-      g_Player->m_origin = Vector2Subtract(g_Player->m_origin, GetUpVector2());
-      
-    }
+void Input()
+{
+  float dt = GetFrameTime();
+
+  if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D))
+  {
+    
+    g_Player->m_rotation += 2.0f * dt;
+  }
+
+  if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A))
+  {
+    g_Player->m_rotation -= 2.0f * dt;
+  }
+
+  if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
+  {
+    SetPlayerPosition(g_Player, Vector2Add(g_Player->m_position, Vector2Scale(GetPlayerForwardVector(g_Player), 200.0f * dt )));
+  }
+
+  if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
+  {
+    SetPlayerPosition(g_Player, Vector2Subtract(g_Player->m_position, Vector2Scale(GetPlayerForwardVector(g_Player), 200.0f * dt )));
+  }
+
+  //if (IsKeyDown(KEY_X))
+  //{
+  //  g_Player->m_position = Vector2Subtract(g_Player->m_position, GetPlayerRightVector(g_Player));
+  //}
 }
 
 void Render()
@@ -96,7 +98,6 @@ void Render()
   ClearBackground(GRAY);
  
   RenderPlayer(g_Player);
-  
 
   EndDrawing();
 }
